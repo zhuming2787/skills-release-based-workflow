@@ -21,71 +21,72 @@ _掌握以 GitHub Flow 为基础的发布型工作流程（release based workflo
 </header>
 
 <!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
+  <<< Author notes: Step 2 >>>
+  Start this step by acknowledging the previous step.
+  Define terms and link to docs.github.com.
 -->
 
-## Step 1: 创建 beta 版本发布
+## Step 2: 向发布分支添加新功能
 
-_欢迎来到 "Release-based workflow" 课程 :sparkle:_
+_干得漂亮！你已经成功创建了 beta 版本 :heart:_
 
-### GitHub Flow 简介
 
-[GitHub flow](https://guides.github.com/introduction/flow/) 是一种轻量、基于分支的开发流程。
+### 发布管理
 
-![github-flow](https://user-images.githubusercontent.com/6351798/48032310-63842400-e114-11e8-8db0-06dc0504dcb5.png)
+在准备版本发布时，我们需要为团队建立一个清晰的工作流程，确保所有工作都能井然有序的开展。
 
-有些项目采用**持续部署（Continuous Deployment）**，每当主分支（`main`）上有新的提交时，就会自动生成一个新版本并发布。
+管理发布有多种策略：
 
-但也有一些项目采用更稳健的发布策略，通过明确的版本号（Version）和正式发布（Release）来管理每次迭代。
+* 有的团队会使用**长期存在的分支**，例如根据环境分为 `production`、`dev` 和 `main`。
+* 也有团队采用更简单的方式：只用功能分支（feature branch），一旦开发完毕后合并到主分支（main）发布版本，然后被删除。
 
-### 版本（Version）是什么
+其实，没有哪种策略一定更好。
+关键在于**有意识地规划分支结构**，并尽量减少长期存在的分支数量。
 
-版本代表软件的不同阶段或迭代，就像操作系统或应用程序的升级。
-例如：
+在本练习中，你将使用 `release-v1.0` 分支，作为每个发布版本对应的长期分支。
 
-- 从 **Windows 8.1 → Windows 10**
-- 从 **macOS High Sierra → macOS Mojave**
+### 受保护的分支
 
-在版本迭代过程中，开发者会修改代码、修复问题、运行测试，并确保新功能不会带来新的缺陷。
-当代码经过验证后，团队会为这一状态打上版本标签，并正式发布给用户使用。
+同 `main` 分支一样，你也可以对发布分支启用保护。这样可以防止被强制推送（force push）或误删。本仓库中，`release-v1.0` 已经默认配置为受保护分支。
 
-### :keyboard: 实操环节：为当前代码库创建一个发布版本
+### 添加新功能
 
-在本步骤中，你将为当前代码库创建一个Release（发布版本）。
+一次正式发布通常包含多个小改动。接下来，我们先忽略之前添加的那个bug，我先为游戏增加几个小功能。
 
-GitHub 的 Release 指向某个具体的提交（commit）。
-Release 可以包含 Markdown 格式的发布说明（Release Notes）和附件（例如可执行程序或安装包）。
+我们要做的改动是：
 
-在正式使用 release-based 工作流程之前，我们先手动创建一个标签（tag）和发布版本：
+- 将页面背景色改为黑色；
+- 同时把文字颜色调整为绿色（这部分我会帮你一起完成）。
 
-1. 打开一个新的浏览器标签页，方便一边操作一边阅读本教程。
-2. 打开仓库的 **Releases** 页面。
-   * 提示：点击仓库顶部的 **Code** 标签页，在仓库简介下方的导航栏中找到 **Releases** 链接。
-3. 点击 **Create a new release**（创建新发布）。
-4. 在 **Tag version** 字段中输入版本号：`v0.9`，目标分支（*Target*）保持为 `main`。
-5. 输入标题，例如 **First beta release**（首个 beta 版本），并可选地添加发布说明。
-6. 勾选 **Set as a pre-release**，表示这是测试版（beta）。
-7. 点击 **Publish release**（发布版本）。
+### :keyboard: 实操环节：修改 `base.css`
 
-### :keyboard: 实操环节：引入一个待修复的 Bug
+1. 基于 `main` 分支创建一个新分支，新分支名字自己取。
+2. 打开 `base.css` 文件，将 `body` 的样式修改如下：
 
-为了在后续演示bug修复流程，我们现在先**故意制造一个 bug**。 系统已为你准备好一个分支：`update-text-colors`。接下来我们将为这个分支创建一个拉取请求（Pull Request）并合并。
-
-1. 创建新的拉取请求，基线选择 `base: release-v1.0`，对比分支选择 `compare: update-text-colors`。
-2. 设置标题为 **Updated game text style**。
-   你可以在描述中添加如下内容：
-
-   ```markdown
-   ## Description:
-   - Updated game text color to green
+   ```css
+   body {
+       background-color: black;
+   }
    ```
-3. 点击 **Create pull request**（创建拉取请求）。
-4. 点击 **Merge pull request** 合并该请求，并删除分支。
-5. 等待大约 20 秒后刷新此页面，[GitHub Actions](https://docs.github.com/en/actions) 会自动检测并进入下一步。
+
+   这会把页面背景改为黑色。
+3. 创建一个新的拉取请求（Pull Request）
+    - **base 分支**：`release-v1.0`
+    - **compare 分支**：你刚创建的新分支
+4. 按模板填写 PR 描述，说明你做了什么。
+5. 点击 **Create pull request**（创建拉取请求）。
+
+### 将新功能合并到 release 分支
+
+即使采用发布分支的工作流，**GitHub Flow**依然是团队协作的重要基础。
+为了保持分支简洁，建议每个功能或修复都使用**短期分支**来完成，并尽快合并。
+
+你现在可以将这个 feature 分支合并到 release 分支中，以便之后更早地创建最终的发布拉取请求。
+
+### :keyboard: 实操环节：合并拉取请求
+
+1. 点击 **Merge pull request**（合并拉取请求），并删除该分支。
+2. 等待大约 20 秒后刷新本页面，[GitHub Actions](https://docs.github.com/en/actions) 会自动检测更新并进入下一步。
 
 <footer>
 
