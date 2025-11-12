@@ -21,58 +21,72 @@ _掌握以 GitHub Flow 为基础的发布型工作流程（release based workflo
 </header>
 
 <!--
-  <<< Author notes: Course start >>>
-  Include start button, a note about Actions minutes,
-  and tell the learner why they should take the course.
+  <<< Author notes: Step 2 >>>
+  Start this step by acknowledging the previous step.
+  Define terms and link to docs.github.com.
 -->
 
-## Welcome
+## Step 2: 向发布分支添加新功能
 
-本课程我们将学习基于发布的（release-based）工作流程，该流程建立在 [GitHub Flow](https://guides.github.com/introduction/flow/) 的基础之上。
-当团队采用这种工作流程时，GitHub 能让你更方便地协作、打包代码，并把项目的稳定版本发布给更多用户下载和使用。
+_干得漂亮！你已经成功创建了 beta 版本 :heart:_
 
-> [GitHub Flow](https://guides.github.com/introduction/flow/) 是一种轻量级的、基于分支的开发工作流程，特别适用于持续部署的团队。
-它通过要求团队创建新分支进行开发、提交代码、发起 Pull Request（用于代码评审和讨论），以及在合并到主分支后立即部署，从而实现持续且高速地发布和部署软件。
 
-GitHub 的 “发布（release）” 功能，可以让你的团队基于项目历史中的某个节点，将软件打包并提供给用户使用。
+### 发布管理
 
-- **适合人群**：开发者、DevOps 工程师、运维人员、管理者和开发团队。
-- **你将学到**：如何按照发布为核心的工作流程开展项目。
-- **你将构建**：创建标签（tag）、发布版本（release）和发布说明（release notes）。
-- **学习前提**：如果你还不了解分支、提交和Pull Request，建议先学习 [GitHub 入门课程](https://github.com/github-china/introduction-to-github)。
-- **课程时长**：不到 1 小时。
+在准备版本发布时，我们需要为团队建立一个清晰的工作流程，确保所有工作都能井然有序的开展。
 
-课程内容如下：
+管理发布有多种策略：
 
-1. 创建 beta 测试版本
-2. 向版本中添加新功能
-3. 创建用于发布的拉取请求（Pull Request）
-4. 添加发布说明并合并代码
-5. 发布正式版本
-6. 提交紧急修复（hotfix）
-7. 创建修复后的发布版本
+* 有的团队会使用**长期存在的分支**，例如根据环境分为 `production`、`dev` 和 `main`。
+* 也有团队采用更简单的方式：只用功能分支（feature branch），一旦开发完毕后合并到主分支（main）发布版本，然后被删除。
 
-### 如何开始课程
+其实，没有哪种策略一定更好。
+关键在于**有意识地规划分支结构**，并尽量减少长期存在的分支数量。
 
-<!-- For start course, run in JavaScript:
-'https://github.com/new?' + new URLSearchParams({
-  template_owner: 'skills',
-  template_name: 'release-based-workflow',
-  owner: '@me',
-  name: 'skills-release-based-workflow',
-  description: 'My clone repository',
-  visibility: 'public',
-}).toString()
--->
+在本练习中，你将使用 `release-v1.0` 分支，作为每个发布版本对应的长期分支。
 
-[![start-course](https://user-images.githubusercontent.com/1221423/235727646-4a590299-ffe5-480d-8cd5-8194ea184546.svg)](https://github.com/new?template_owner=github-china&template_name=release-based-workflow&owner=%40me&name=skills-release-based-workflow&description=My+clone+repository&visibility=public)
+### 受保护的分支
 
-1. 右键点击上方 **Start course** 按钮，选择在新标签页中打开链接。
-2. 在新页面中根据系统提示新建一个仓库。
-   - 仓库名称、描述这些字段系统已经帮我们自动填充好了，您可以按需修改。
-   - 建议使用选择公开仓库，因为私有仓库有[GitHub Actions 分钟数限制](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions)。
-   - 最后点击 Create repository 按钮
-3. 仓库创建完毕后，等待大约 20 秒（等待Action执行），然后刷新页面。注意是刷新您仓库的页面，不是本课程的页面。如果页面没有变化，请继续等待。然后按照 README 中的步骤一步步进行。
+同 `main` 分支一样，你也可以对发布分支启用保护。这样可以防止被强制推送（force push）或误删。本仓库中，`release-v1.0` 已经默认配置为受保护分支。
+
+### 添加新功能
+
+一次正式发布通常包含多个小改动。接下来，我们先忽略之前添加的那个bug，我先为游戏增加几个小功能。
+
+我们要做的改动是：
+
+- 将页面背景色改为黑色；
+- 同时把文字颜色调整为绿色（这部分我会帮你一起完成）。
+
+### :keyboard: 实操环节：修改 `base.css`
+
+1. 基于 `main` 分支创建一个新分支，新分支名字自己取。
+2. 打开 `base.css` 文件，将 `body` 的样式修改如下：
+
+   ```css
+   body {
+       background-color: black;
+   }
+   ```
+
+   这会把页面背景改为黑色。
+3. 创建一个新的拉取请求（Pull Request）
+    - **base 分支**：`release-v1.0`
+    - **compare 分支**：你刚创建的新分支
+4. 按模板填写 PR 描述，说明你做了什么。
+5. 点击 **Create pull request**（创建拉取请求）。
+
+### 将新功能合并到 release 分支
+
+即使采用发布分支的工作流，**GitHub Flow**依然是团队协作的重要基础。
+为了保持分支简洁，建议每个功能或修复都使用**短期分支**来完成，并尽快合并。
+
+你现在可以将这个 feature 分支合并到 release 分支中，以便之后更早地创建最终的发布拉取请求。
+
+### :keyboard: 实操环节：合并拉取请求
+
+1. 点击 **Merge pull request**（合并拉取请求），并删除该分支。
+2. 等待大约 20 秒后刷新本页面，[GitHub Actions](https://docs.github.com/en/actions) 会自动检测更新并进入下一步。
 
 <footer>
 
