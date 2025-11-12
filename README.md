@@ -21,58 +21,71 @@ _掌握以 GitHub Flow 为基础的发布型工作流程（release based workflo
 </header>
 
 <!--
-  <<< Author notes: Course start >>>
-  Include start button, a note about Actions minutes,
-  and tell the learner why they should take the course.
+  <<< Author notes: Step 1 >>>
+  Choose 3-5 steps for your course.
+  The first step is always the hardest, so pick something easy!
+  Link to docs.github.com for further explanations.
+  Encourage users to open new tabs for steps!
 -->
 
-## Welcome
+## Step 1: 创建 beta 版本发布
 
-本课程我们将学习基于发布的（release-based）工作流程，该流程建立在 [GitHub Flow](https://guides.github.com/introduction/flow/) 的基础之上。
-当团队采用这种工作流程时，GitHub 能让你更方便地协作、打包代码，并把项目的稳定版本发布给更多用户下载和使用。
+_欢迎来到 "Release-based workflow" 课程 :sparkle:_
 
-> [GitHub Flow](https://guides.github.com/introduction/flow/) 是一种轻量级的、基于分支的开发工作流程，特别适用于持续部署的团队。
-它通过要求团队创建新分支进行开发、提交代码、发起 Pull Request（用于代码评审和讨论），以及在合并到主分支后立即部署，从而实现持续且高速地发布和部署软件。
+### GitHub Flow 简介
 
-GitHub 的 “发布（release）” 功能，可以让你的团队基于项目历史中的某个节点，将软件打包并提供给用户使用。
+[GitHub flow](https://guides.github.com/introduction/flow/) 是一种轻量、基于分支的开发流程。
 
-- **适合人群**：开发者、DevOps 工程师、运维人员、管理者和开发团队。
-- **你将学到**：如何按照发布为核心的工作流程开展项目。
-- **你将构建**：创建标签（tag）、发布版本（release）和发布说明（release notes）。
-- **学习前提**：如果你还不了解分支、提交和Pull Request，建议先学习 [GitHub 入门课程](https://github.com/github-china/introduction-to-github)。
-- **课程时长**：不到 1 小时。
+![github-flow](https://user-images.githubusercontent.com/6351798/48032310-63842400-e114-11e8-8db0-06dc0504dcb5.png)
 
-课程内容如下：
+有些项目采用**持续部署（Continuous Deployment）**，每当主分支（`main`）上有新的提交时，就会自动生成一个新版本并发布。
 
-1. 创建 beta 测试版本
-2. 向版本中添加新功能
-3. 创建用于发布的拉取请求（Pull Request）
-4. 添加发布说明并合并代码
-5. 发布正式版本
-6. 提交紧急修复（hotfix）
-7. 创建修复后的发布版本
+但也有一些项目采用更稳健的发布策略，通过明确的版本号（Version）和正式发布（Release）来管理每次迭代。
 
-### 如何开始课程
+### 版本（Version）是什么
 
-<!-- For start course, run in JavaScript:
-'https://github.com/new?' + new URLSearchParams({
-  template_owner: 'skills',
-  template_name: 'release-based-workflow',
-  owner: '@me',
-  name: 'skills-release-based-workflow',
-  description: 'My clone repository',
-  visibility: 'public',
-}).toString()
--->
+版本代表软件的不同阶段或迭代，就像操作系统或应用程序的升级。
+例如：
 
-[![start-course](https://user-images.githubusercontent.com/1221423/235727646-4a590299-ffe5-480d-8cd5-8194ea184546.svg)](https://github.com/new?template_owner=github-china&template_name=release-based-workflow&owner=%40me&name=skills-release-based-workflow&description=My+clone+repository&visibility=public)
+- 从 **Windows 8.1 → Windows 10**
+- 从 **macOS High Sierra → macOS Mojave**
 
-1. 右键点击上方 **Start course** 按钮，选择在新标签页中打开链接。
-2. 在新页面中根据系统提示新建一个仓库。
-   - 仓库名称、描述这些字段系统已经帮我们自动填充好了，您可以按需修改。
-   - 建议使用选择公开仓库，因为私有仓库有[GitHub Actions 分钟数限制](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions)。
-   - 最后点击 Create repository 按钮
-3. 仓库创建完毕后，等待大约 20 秒（等待Action执行），然后刷新页面。注意是刷新您仓库的页面，不是本课程的页面。如果页面没有变化，请继续等待。然后按照 README 中的步骤一步步进行。
+在版本迭代过程中，开发者会修改代码、修复问题、运行测试，并确保新功能不会带来新的缺陷。
+当代码经过验证后，团队会为这一状态打上版本标签，并正式发布给用户使用。
+
+### :keyboard: 实操环节：为当前代码库创建一个发布版本
+
+在本步骤中，你将为当前代码库创建一个Release（发布版本）。
+
+GitHub 的 Release 指向某个具体的提交（commit）。
+Release 可以包含 Markdown 格式的发布说明（Release Notes）和附件（例如可执行程序或安装包）。
+
+在正式使用 release-based 工作流程之前，我们先手动创建一个标签（tag）和发布版本：
+
+1. 打开一个新的浏览器标签页，方便一边操作一边阅读本教程。
+2. 打开仓库的 **Releases** 页面。
+   * 提示：点击仓库顶部的 **Code** 标签页，在仓库简介下方的导航栏中找到 **Releases** 链接。
+3. 点击 **Create a new release**（创建新发布）。
+4. 在 **Tag version** 字段中输入版本号：`v0.9`，目标分支（*Target*）保持为 `main`。
+5. 输入标题，例如 **First beta release**（首个 beta 版本），并可选地添加发布说明。
+6. 勾选 **Set as a pre-release**，表示这是测试版（beta）。
+7. 点击 **Publish release**（发布版本）。
+
+### :keyboard: 实操环节：引入一个待修复的 Bug
+
+为了在后续演示bug修复流程，我们现在先**故意制造一个 bug**。 系统已为你准备好一个分支：`update-text-colors`。接下来我们将为这个分支创建一个拉取请求（Pull Request）并合并。
+
+1. 创建新的拉取请求，基线选择 `base: release-v1.0`，对比分支选择 `compare: update-text-colors`。
+2. 设置标题为 **Updated game text style**。
+   你可以在描述中添加如下内容：
+
+   ```markdown
+   ## Description:
+   - Updated game text color to green
+   ```
+3. 点击 **Create pull request**（创建拉取请求）。
+4. 点击 **Merge pull request** 合并该请求，并删除分支。
+5. 等待大约 20 秒后刷新此页面，[GitHub Actions](https://docs.github.com/en/actions) 会自动检测并进入下一步。
 
 <footer>
 
